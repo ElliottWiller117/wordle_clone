@@ -8,6 +8,42 @@ let rightGuessString = WORDS[Math.floor(Math.random() * WORDS.length)];
 
 console.log(rightGuessString);
 
+document.getElementById("theme-toggle").onclick = e => {
+  document.body.classList.toggle("dark-mode");
+  e.target.textContent = document.body.classList.contains("dark-mode") ? "Light Mode 🔆" : "Dark Mode 🌑";
+};
+
+document.getElementById("theme-toggle").addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+  }
+});
+
+document.getElementById("hint-button").onclick = () => {
+  const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+
+  const inWord = new Set(rightGuessString.split(""));
+
+  const used = new Set(
+    Array.from(document.getElementsByClassName("keyboard-button"))
+      .filter(btn => btn.style.backgroundColor === "gray")
+      .map(btn => btn.textContent)
+  );
+
+  let candidates = alphabet.filter(l => !inWord.has(l) && !used.has(l));
+
+  if (candidates.length >= 2) {
+    for (let i = 0; i < 2; i++) {
+      let rand = candidates.splice(Math.floor(Math.random() * candidates.length), 1)[0];
+      shadeKeyBoard(rand, "gray");
+    }
+    toastr.info("Come on, you don't need this...");
+  } else {
+    toastr.warning("No more hints for you!");
+  }
+};
+
+
 function initBoard() {
   let board = document.getElementById("game-board");
 
@@ -33,7 +69,7 @@ function shadeKeyBoard(letter, color) {
         return;
       }
 
-      if (oldColor === "yellow" && color !== "green") {
+      if (oldColor === "orange" && color !== "green") {
         return;
       }
 
@@ -89,7 +125,7 @@ function checkGuess() {
     //checking right letters
     for (let j = 0; j < 5; j++) {
       if (rightGuess[j] == currentGuess[i]) {
-        letterColor[i] = "yellow";
+        letterColor[i] = "orange";
         rightGuess[j] = "#";
       }
     }

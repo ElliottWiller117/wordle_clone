@@ -53,3 +53,13 @@ h1 {
   cursor: pointer;
   text-transform: uppercase;
 }
+
+body.dark-mode {
+  background: #121212;
+  color: white;
+}
+
+body.dark-mode .letter-box { background: #222; color: white; border-color: #555; }
+body.dark-mode .filled-box { border-color: white; }
+body.dark-mode .keyboard-button { background: #333; color: white; border: 1px solid #555; }
+
